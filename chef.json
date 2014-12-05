@@ -1,0 +1,10 @@
+{
+  "rvm": {
+    "rubies": ["1.9.3"],
+    "default_ruby": "ruby 1.9.3-p551",
+    "user_default_ruby": "ruby 1.9.3-p551",
+    "vagrant": {
+      "system_chef_solo": "/usr/local/ruby/bin/chef-solo"
+    }
+  }
+}

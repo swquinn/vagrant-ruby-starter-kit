@@ -26,9 +26,26 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/trusty64"
-  
+
+  # Enable Berkshelf for managing our Chef cookbooks and recipes
+  config.berkshelf.enabled = true
+
+  # Ensure that we're using the latest version of Chef, via the omnibus
+  config.omnibus.chef_version = :latest
+
   config.vm.provision :chef_solo do |chef|
-    chef.add_recipe "bootstrap"
+    chef.cookbooks_path = "cookbooks"
+
+    chef.json = JSON.parse(File.read(File.join(File.dirname(__FILE__), 'chef.json')))
+
+    ## Add the recipes which we want to invoke
+    chef.add_recipe "apt"
+    chef.add_recipe "build-essential"
+    chef.add_recipe "git"
+    chef.add_recipe "rvm::system"
+    chef.add_recipe "rvm::vagrant"
+    chef.add_recipe "rvm::gem_package"
+    chef.add_recipe "ruby_build"
   end
 
 end
